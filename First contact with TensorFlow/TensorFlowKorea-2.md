@@ -34,6 +34,8 @@ plt.legend()
 plt.show()
 ```
 
+![pic](https://tensorflowkorea.files.wordpress.com/2016/04/image014.png?w=625)
+
 우리는 W 가 0.1 , b 가 0.3 에 근사한 값이라는 것을 알지만 텐서플로우는 모릅니다. 텐서플로우가 학습을 통해 스스로 찾아내야합니다.
 
 
@@ -89,10 +91,11 @@ step 수를 늘릴수록 점점 W는 0.1에 b는 0.3에 근사합니다.
 
 그래프를 통해 보기 위해 아래의 코드를 추가합니다.
 
-
 ```python
 plt.plot(x_data, y_data, 'ro')
 plt.plot(x_data, sess.run(W) * x_data + sess.run(b))
 plt.legend()
 plt.show()
 ```
+
+![pic](https://tensorflowkorea.files.wordpress.com/2016/04/image016.png?w=625)
