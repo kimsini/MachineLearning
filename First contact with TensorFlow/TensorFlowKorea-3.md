@@ -21,8 +21,10 @@ t = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 예를 들어, 2×2000 배열(2D 텐서)을 3차원 배열(3D 텐서)로 확장하고 싶다면 tf.expand_dims 함수를 사용하여 텐서의 원하는 위치에 차원을 추가할 수 있습니다.
 
+```python
 vectors = tf.constant(conjunto_puntos)
 extended_vectors = tf.expand_dims(vectors, 0)
+```
 
 여기서 tf.expand_dims 은 파라메타로 지정된 텐서의 위치(0부터 가능)에 하나의 차원을 추가하였습니다.(역주: 2차원 텐서의 경우 지정할 수 있는 차원은 0, 1 입니다)
 
@@ -34,7 +36,9 @@ image
 
 get_shape() 함수로 이 텐서의 크기를 확인하면 D0에는 크기가 없다는 걸 알 수 있습니다.
 
+```python
 print expanded_vectors.get_shape()
+```
 
 아래와 같은 결과를 얻습니다.
 
@@ -118,11 +122,13 @@ for step in range(100):
 위에서 언급했듯이 무작위로 k개의 데이터를 선택된 센트로이드를 할당해야합니다. 코드에서는 centroides 변수입니다. centroides 변수에는 k개의 무작위로 선택된 좌표가 저장 되어 있습니다.
 아래와 같이 텐서의 크기를 알 수 있습니다.
 
+```python
 print vectors.get_shape()
 print centroides.get_shape()
 
 TensorShape([Dimension(2000), Dimension(2)])
 TensorShape([Dimension(4), Dimension(2)])
+```
 
 vectors는 D0 차원에 2000개의 배열을 가지고 있고 D1 차원에는 각 포인트의 x, y 좌표의 값을 가지고 있습니다. 반면 centroids는 D0 차원에 4개, D1 차원에 vectors와 동일한 2개의 배열을 가진 행렬입니다.
 
@@ -131,9 +137,10 @@ vectors는 D0 차원에 2000개의 배열을 가지고 있고 D1 차원에는 �
 이 값을 계산하기 위해 tf.sub(vectors, centroids)를 사용합니다. 주의할 점은 뺄셈을 하려고 하는 두 텐서가 모두 2차원이지만 1차원 배열의 갯수가(D0 차원이 2000 vs 4) 다르다는 것 입니다.
 이 문제를 해결하기 위해 이전에 언급했던 tf.expand_dims 함수를 사용하여 두 텐서에 차원을 추가합니다. 이렇게 하는 이유는 두 텐서를 2차원에서 3차원으로 만들어 뺄셈을 할 수 있도록 사이즈를 맞추려는 것 입니다
 
+```python
 expanded_vectors = tf.expand_dims(vectors, 0)
-
 expanded_centroides = tf.expand_dims(centroides, 1)
+```
 
 tf.expand_dims 은 두 텐서에 각각 하나의 차원을 추가합니다. vectors 텐서에는 첫번째 차원(D0)를 추가하고 centroids 텐서에는 두번째 차원(D1)을 추가합니다. 그림으로 보면 각 차원들은 확장된 텐서에서도 동일한 의미를 가지고 있습니다.
 
@@ -147,10 +154,12 @@ tf.expand_dims 은 두 텐서에 각각 하나의 차원을 추가합니다. vec
 
 유클리디안 제곱거리(Squared Euclidean Distance)를 사용하는 할당 단계(step 1)의 알고리즘은 텐서플로우에서 4줄의 코드로 나타낼 수 있습니다.
 
+```python
 diff=tf.sub(expanded_vectors, expanded_centroides)
 sqr= tf.square(diff)
 distances = tf.reduce_sum(sqr, 2)
 assignments = tf.argmin(distances, 0)
+```
 
 diff, sqr, distance, assignment 텐서의 크기를 살펴보면 아래와 같습니다.
 
@@ -169,8 +178,9 @@ sqr 텐서는 diff 텐서의 제곱 값을 가집니다. distances 텐서에서�
 
 매 반복마다 알고리즘에서 새롭게 그룹핑을 하면 각 그룹에 해당하는 새로운 센트로이드를 계산해야 합니다. 이전 섹션의 코드에서 아래 코드가 있었습니다.
 
+```python
 means = tf.concat(0, [tf.reduce_mean(tf.gather(vectors, tf.reshape(tf.where( tf.equal(assignments, c)),[1,-1])), reduction_indices=[1]) for c in range(k)])
-
+```
 
 * equal 함수를 사용하여 한 클러스터와 매칭되는(역주: 클러스터 번호는 변수 c 에 매핑) assignments 텐서의 요소에 true 표시가 되는 불리언(boolean) 텐서(Dimension(2000))를 만듭니다.
 * where 함수를 사용하여 파라메타로 받은 불리언 텐서에서 true로 표시된 위치를 값으로 가지는 텐서(Dimension(1) x Dimension(2000))를 만듭니다.(역주: [Dimension(None), Dimension(1)] 텐서를 만듭니다)
