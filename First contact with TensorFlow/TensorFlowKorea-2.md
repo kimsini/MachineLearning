@@ -96,7 +96,3 @@ plt.plot(x_data, sess.run(W) * x_data + sess.run(b))
 plt.legend()
 plt.show()
 ```
-
-    /home/llewyb/anaconda3/lib/python3.5/site-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label='...' kwarg on individual plots.
-      warnings.warn("No labelled objects found. "
-
