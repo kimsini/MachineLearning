@@ -103,3 +103,7 @@ plt.show()
 ```
 
 ![pic](https://tensorflowkorea.files.wordpress.com/2016/04/image016.png?w=625)
+
+# Referenece
+* http://cs231n.github.io/convolutional-networks/
+* https://tensorflowkorea.wordpress.com/5-텐서플로우-다중-레이어-뉴럴-네트워크-first-contact-with-tensorflow/
