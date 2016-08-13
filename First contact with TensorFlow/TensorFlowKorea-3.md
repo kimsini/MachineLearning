@@ -252,3 +252,7 @@ plt.show()
 ![pic](https://i0.wp.com/www.jorditorres.org/wp-content/uploads/2016/02/image026.png)
 
 전 내용을 잘 숙지했다면 위 그래프 내용도 쉽게 이해하실 거라 생각합니다.
+
+# Referenece
+* http://cs231n.github.io/convolutional-networks/
+* https://tensorflowkorea.wordpress.com/5-텐서플로우-다중-레이어-뉴럴-네트워크-first-contact-with-tensorflow/

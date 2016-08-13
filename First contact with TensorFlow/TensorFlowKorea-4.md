@@ -300,3 +300,7 @@ print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}
 저는 91% 정도의 정확도를 얻었습니다. 결과가 만족할만한가요? 저는 매우 훌륭하다고 생각합니다. 왜냐하면 난생처음 텐서플로우를 이용해 뉴럴 네트워크를 프로그래밍해 본 것이니까요.
 
 더 높은 정확도를 내는 방법들이 있습니다. 바로 다음장에서 여러개의 레이어를 가지는 뉴럴 네트워크에 대해 살펴 보겠습니다.
+
+# Referenece
+* http://cs231n.github.io/convolutional-networks/
+* https://tensorflowkorea.wordpress.com/5-텐서플로우-다중-레이어-뉴럴-네트워크-first-contact-with-tensorflow/

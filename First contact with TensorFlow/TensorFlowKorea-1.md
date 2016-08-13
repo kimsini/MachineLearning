@@ -67,3 +67,6 @@ print(sess.run(y,feed_dict={a:3,b:4}))
 |tf.matrix_determinant| 	정방행렬의 행렬식 값을 리턴합니다.          |
 |tf.matrix_inverse 	  | 정방행렬의 역행렬을 리턴합니다.                 |
 
+# Referenece
+* http://cs231n.github.io/convolutional-networks/
+* https://tensorflowkorea.wordpress.com/5-텐서플로우-다중-레이어-뉴럴-네트워크-first-contact-with-tensorflow/
