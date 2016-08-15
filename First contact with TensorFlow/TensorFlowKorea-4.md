@@ -18,7 +18,7 @@ MNIST 데이터셋은 훈련용 6만개와 테스트용 1만개로 이루어진 
 출력 점수와 기대 점수의 차이를 측정하는 **에러함수**(이전 장에서 했듯이)를 계산합니다. 그리고 학습모델은 이 에러를 줄이기 위해 가중치(weight) 파라메타를 조정하게 됩니다. 전형적인 딥러닝 시스템에는 수억개의 가중치 파라메타와 수억개의 레이블된 훈련용 데이터가 있습니다. 우리는 이런 종류의 모델이 어떻게 작동하는지 이해하기 쉽게 작은 예제를 다루도록 하겠습니다.
 
 ```python
-from tensorflow.examples.tutorials.mnist import input_data<br/>
+from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 ```
 
@@ -144,31 +144,31 @@ W행렬과 x행렬에 대해 간단히 설명하자면,
 알고리즘이 어떻게 숫자를 인식하는지에 대해 간단하게 소개했으니 텐서플로우로 구현해 보도록 하겠습니다.
 
 ```python
-from tensorflow.examples.tutorials.mnist import input_data<br/>
+from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("MNIST_data/", one_hot=True)
 
 import tensorflow as tf
 
-x = tf.placeholder("float", [None, 784])<br/>
-W = tf.Variable(tf.zeros([784,10]))<br/>
+x = tf.placeholder("float", [None, 784])
+W = tf.Variable(tf.zeros([784,10]))
 b = tf.Variable(tf.zeros([10]))
 
-matm=tf.matmul(x,W)<br/>
-y = tf.nn.softmax(tf.matmul(x,W) + b)<br/>
+matm=tf.matmul(x,W)
+y = tf.nn.softmax(tf.matmul(x,W) + b)
 y_ = tf.placeholder("float", [None,10])
 
-cross_entropy = -tf.reduce_sum(y_*tf.log(y))<br/>
+cross_entropy = -tf.reduce_sum(y_*tf.log(y))
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 
-sess = tf.Session()<br/>
+sess = tf.Session()
 sess.run(tf.initialize_all_variables())
 
-for i in range(1000):<br/>
-    batch_xs, batch_ys = mnist.train.next_batch(100)<br/>
-    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})<br/>
-    correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))<br/>
-    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))<br/>
-    print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))<br/>
+for i in range(1000):
+    batch_xs, batch_ys = mnist.train.next_batch(100)
+    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})>
+    correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_,1))
+    accuracy = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    print(sess.run(accuracy, feed_dict={x: mnist.test.images, y_: mnist.test.labels}))
 ```
 
 구현 전에 텐서가 어떻게 모델의 데이터와 파라메타를 저장하는지 빠르게 흟어 보겠습니다. 아래 도식은 데이터 구조와 관계를 그림으로 그린 것입니다.
@@ -178,12 +178,12 @@ for i in range(1000):<br/>
 먼저 가중치 W 와 바이어스 b 를 저장할 변수 2개를 만듭니다.
 
 ```python
-W = tf.Variable(tf.zeros([784,10]))<br/>
+W = tf.Variable(tf.zeros([784,10]))
 b = tf.Variable(tf.zeros([10]))
 ```
 
 이 변수들은 tf.Variable 함수를 사용하여 생성되었고 초기값을 가집니다. 여기서는 모두 0 으로 셋팅한 상수 텐서를 초기값으로 합니다.
-파라메타로 상수 텐서 tf.zeros([784, 10]) 가 전달되었으므로 W 가 [Dimension(784), Dimension(10)] 구조를 가졌음을 알 수 있습니다.<br/> 
+파라메타로 상수 텐서 tf.zeros([784, 10]) 가 전달되었으므로 W 가 [Dimension(784), Dimension(10)] 구조를 가졌음을 알 수 있습니다. 
 같은 맥락으로 바이어스 b 는 [Dimension(10)]의 구조를 가집니다. 행렬 W 는 10개의 숫자 클래스에 대해 이미지 벡터의 784개 자리와 곱셈하기 위한 크기를 가지고 있으며 b 가 더해진 후에 근거를 구성할 텐서가 만들어 집니다.
 
 MNIST 예제의 경우 x 포인트에 대한 정보를 저장하기 위한 이차원 텐서를 아래 코드로 만듭니다.
@@ -260,8 +260,8 @@ sess.run(tf.initialize_all_variables())
 여기서부터 모델 훈련을 시작합니다. train_step 에서 산출된 파라메타는 그래디언트 디센트 알고리즘에 다시 참여하게 됩니다. 그러므로 모델을 훈련시키려면 train_step 을 반복적으로 실행해야 합니다. train_step 을 1000번 실행해 보도록 합니다. 아래 코드를 참고 하세요.
 
 ```python
-for i in range(1000):<br/>
-   batch_xs, batch_ys = mnist.train.next_batch(100)<br/>
+for i in range(1000):
+   batch_xs, batch_ys = mnist.train.next_batch(100)
    sess.run(train_step, feed_dict={x: batch_xs, y_: batch_ys})
 ```
 
