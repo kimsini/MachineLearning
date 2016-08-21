@@ -49,3 +49,6 @@ gradient descent를 이용하려면 모든 노드의 미분값을 알아야한�
 
 ![s](https://1.bp.blogspot.com/-P8VUtQ89Hpo/V7R20P_SMLI/AAAAAAAAIB4/7DF0-jT8BQ48ewH7ooa0wdwJh_EsQxBQACK4B/s400/graph_run%253D.png)
 
+# Reference
+----------------------------------------------------------
+* https://www.youtube.com/user/hunkims/playlists
