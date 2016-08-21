@@ -51,3 +51,7 @@ RNN의 첫번째 단계는 문자열을 벡터화하는 것이다.
 ![s](https://3.bp.blogspot.com/-rH41kW9xODE/V7m96zR0MyI/AAAAAAAAIKo/GWAu6uLVmB4ZpuPxtGJVQuSnKVLwgjUzgCK4B/s400/ScreenShot_20160821233819.png)
 
 RNN에서 여러가지 기술들이 존재한다. 기술마다 쓰이는 곳이 다르다.
+
+# Reference
+----------------------------------------------------------
+* https://www.youtube.com/user/hunkims/playlists
