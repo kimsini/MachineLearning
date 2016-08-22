@@ -19,22 +19,54 @@ t = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
 
 텐서플로우의 공식 문서에서는 텐서의 차원을 표현하기 위해 구조(Shape), 랭크(Rank), 차원번호(Dimension Number) 라는 세가지 종류의 이름을 사용합니다. 아래 테이블은 텐서플로우 문서를 볼 때 혼돈되지 않도록 각 이름 사이의 관계를 나타냈습니다.
 
+|구조(SHAPE)	|랭크(RANK)	|차원번호(DIMENSION NUMBER) |
+|---------------|-----------|---------------------------|
+|[]	            |0	        |0-D                        |
+|[D0]	        |1	        |1-D                        |
+|[D0, D1]	    |2	        |2-D                        |
+|[D0, D1, D2]	|3	        |3-D                        |
+|…	            |…	        |…                          |
+|[D0, D1, … Dn]	|n	        |n-D                        |
+
+이 장을 진행하면서 아래 중 일부 함수에 대해 자세히 설명하겠습니다. 변환 함수의 전체 목록과 설명은 텐서플로우 공식 웹사이트의 텐서 변환(Tensor Transformations)에서 찾을 수 있습니다.
+
+
+|함수	        |설명                                                                   |
+|---------------|-----------------------------------------------------------------------|
+|tf.shape	    |텐서의 구조를 알아냅니다.                                              |
+|tf.size	    |텐서의 크기를 알아냅니다.                                              |
+|tf.rank	    |텐서의 랭크를 알아냅니다.                                              |
+|tf.reshape	    |텐서의 엘리먼트(element)는 그대로 유지하면서 텐서의 구조를 바꿉니다.   |
+|tf.squeeze	    |텐서에서 크기가 1인 차원을 삭제합니다.                                 |
+|tf.expand_dims	|텐서에 차원을 추가합니다.                                              |
+|tf.slice	    |텐서의 일부분을 삭제합니다.|
+|tf.split	    |텐서를 한 차원을 기준으로 여러개의 텐서로 나눕니다.|
+|tf.tile	    |한 텐서를 여러번 중복으로 늘려 새 텐서를 만듭니다.|
+|tf.concat	    |한 차원을 기준으로 텐서를 이어 붙입니다.|
+|tf.reverse	    |텐서의 지정된 차원을 역전시킵니다.|
+|tf.transpose	|텐서를 전치(transpose)시킵니다.|
+|tf.gather	    |주어진 인덱스에 따라 텐서의 엘리먼트를 모읍니다.|
+
 예를 들어, 2×2000 배열(2D 텐서)을 3차원 배열(3D 텐서)로 확장하고 싶다면 tf.expand_dims 함수를 사용하여 텐서의 원하는 위치에 차원을 추가할 수 있습니다.
 
+```python
 vectors = tf.constant(conjunto_puntos)
 extended_vectors = tf.expand_dims(vectors, 0)
+```
 
 여기서 tf.expand_dims 은 파라메타로 지정된 텐서의 위치(0부터 가능)에 하나의 차원을 추가하였습니다.(역주: 2차원 텐서의 경우 지정할 수 있는 차원은 0, 1 입니다)
 
 위 변환 과정을 그림으로 보면 아래와 같습니다.
 
-image
+![image](https://tensorflowkorea.files.wordpress.com/2016/05/image023.gif?w=230&h=422)
 
 그림에서 볼 수 있듯이 우리는 이제 3D 텐서를 얻었습니다. 하지만 함수의 인자로 전달하는 새로운 차원인 D0에 크기를 지정할 수는 없습니다.
 
 get_shape() 함수로 이 텐서의 크기를 확인하면 D0에는 크기가 없다는 걸 알 수 있습니다.
 
+```python
 print expanded_vectors.get_shape()
+```
 
 아래와 같은 결과를 얻습니다.
 
@@ -85,8 +117,9 @@ sns.lmplot("x", "y", data=df, fit_reg=False, size=6)
 plt.show()
 ```
 
-텐서플로우에서 위 데이터를 4개의 클러스터로 그룹핑하는 K-means 알고리즘 구현 코드는 아래와 같습니다.(Shawn Simister의 블로그에 올라온 모델을 참고했습니다)
+![pic](https://i1.wp.com/www.jorditorres.org/wp-content/uploads/2016/02/image024.png)
 
+텐서플로우에서 위 데이터를 4개의 클러스터로 그룹핑하는 K-means 알고리즘 구현 코드는 아래와 같습니다.(Shawn Simister의 블로그에 올라온 모델을 참고했습니다)
 
 ```python
 vectors = tf.constant(conjunto_puntos)
@@ -118,11 +151,13 @@ for step in range(100):
 위에서 언급했듯이 무작위로 k개의 데이터를 선택된 센트로이드를 할당해야합니다. 코드에서는 centroides 변수입니다. centroides 변수에는 k개의 무작위로 선택된 좌표가 저장 되어 있습니다.
 아래와 같이 텐서의 크기를 알 수 있습니다.
 
+```python
 print vectors.get_shape()
 print centroides.get_shape()
 
 TensorShape([Dimension(2000), Dimension(2)])
 TensorShape([Dimension(4), Dimension(2)])
+```
 
 vectors는 D0 차원에 2000개의 배열을 가지고 있고 D1 차원에는 각 포인트의 x, y 좌표의 값을 가지고 있습니다. 반면 centroids는 D0 차원에 4개, D1 차원에 vectors와 동일한 2개의 배열을 가진 행렬입니다.
 
@@ -131,11 +166,14 @@ vectors는 D0 차원에 2000개의 배열을 가지고 있고 D1 차원에는 �
 이 값을 계산하기 위해 tf.sub(vectors, centroids)를 사용합니다. 주의할 점은 뺄셈을 하려고 하는 두 텐서가 모두 2차원이지만 1차원 배열의 갯수가(D0 차원이 2000 vs 4) 다르다는 것 입니다.
 이 문제를 해결하기 위해 이전에 언급했던 tf.expand_dims 함수를 사용하여 두 텐서에 차원을 추가합니다. 이렇게 하는 이유는 두 텐서를 2차원에서 3차원으로 만들어 뺄셈을 할 수 있도록 사이즈를 맞추려는 것 입니다
 
+```python
 expanded_vectors = tf.expand_dims(vectors, 0)
-
 expanded_centroides = tf.expand_dims(centroides, 1)
+```
 
 tf.expand_dims 은 두 텐서에 각각 하나의 차원을 추가합니다. vectors 텐서에는 첫번째 차원(D0)를 추가하고 centroids 텐서에는 두번째 차원(D1)을 추가합니다. 그림으로 보면 각 차원들은 확장된 텐서에서도 동일한 의미를 가지고 있습니다.
+
+![pic](https://i2.wp.com/www.jorditorres.org/wp-content/uploads/2016/02/image031.gif)
 
 하지만 추가한 차원의 크기가 모두 1로 아직 결정되지 않았다는 것을 의미합니다. 전에 언급한 텐서플로우 broadcasting 기능이 두 텐서의 엘리먼트를 어떻게 빼야할 지 스스로 알아낼 수 있습니다. 정말 강력한 라이브러리인 것 같습니다.
 
@@ -147,10 +185,12 @@ tf.expand_dims 은 두 텐서에 각각 하나의 차원을 추가합니다. vec
 
 유클리디안 제곱거리(Squared Euclidean Distance)를 사용하는 할당 단계(step 1)의 알고리즘은 텐서플로우에서 4줄의 코드로 나타낼 수 있습니다.
 
+```python
 diff=tf.sub(expanded_vectors, expanded_centroides)
 sqr= tf.square(diff)
 distances = tf.reduce_sum(sqr, 2)
 assignments = tf.argmin(distances, 0)
+```
 
 diff, sqr, distance, assignment 텐서의 크기를 살펴보면 아래와 같습니다.
 
@@ -165,12 +205,28 @@ sqr 텐서는 diff 텐서의 제곱 값을 가집니다. distances 텐서에서�
 
 텐서플로우는 tf.reduce_sum 처럼 텐서의 차원을 감소시키는 수학 연산을 여럿 제공하고 있습니다. 아래 테이블에 중요한 몇개를 요약했습니다
 
+
+|함수	|설명|
+|-------|-------------------------------------------------|
+|tf.reduce_sum	|지정된 차원을 따라 엘리먼트들을 더합니다.|
+|tf.reduce_prod	|지정된 차원을 따라 엘리먼트들을 곱합니다.|
+|tf.reduce_min	|지정된 차원을 따라 최소값을 선택합니다.|
+|tf.reduce_max	|지정된 차원을 따라 최대값을 선택합니다.|
+|tf.reduce_mean	|지정된 차원을 따라 평균값을 계산합니다.|
+
 마지막으로 센트로이드의 선택은 지정된 차원(여기서는 센트로이드 값이 있는 D0 차원)에서 가장 작은 값의 인덱스를 리턴하는 tf.argmin 으로 결정됩니다. 그리고 tf.argmax 함수도 있습니다.
+
+
+|함수	|설명|
+|--------|---|
+|tf.argmin	|지정된 차원을 따라 가장 작은 값의 엘리먼트가 있는 인덱스를 리턴합니다.|
+|tf.argmax	|지정된 차원을 따라 가장 큰 값의 엘리먼트가 있는 인덱스를 리턴합니다.|
 
 매 반복마다 알고리즘에서 새롭게 그룹핑을 하면 각 그룹에 해당하는 새로운 센트로이드를 계산해야 합니다. 이전 섹션의 코드에서 아래 코드가 있었습니다.
 
+```python
 means = tf.concat(0, [tf.reduce_mean(tf.gather(vectors, tf.reshape(tf.where( tf.equal(assignments, c)),[1,-1])), reduction_indices=[1]) for c in range(k)])
-
+```
 
 * equal 함수를 사용하여 한 클러스터와 매칭되는(역주: 클러스터 번호는 변수 c 에 매핑) assignments 텐서의 요소에 true 표시가 되는 불리언(boolean) 텐서(Dimension(2000))를 만듭니다.
 * where 함수를 사용하여 파라메타로 받은 불리언 텐서에서 true로 표시된 위치를 값으로 가지는 텐서(Dimension(1) x Dimension(2000))를 만듭니다.(역주: [Dimension(None), Dimension(1)] 텐서를 만듭니다)
@@ -193,4 +249,10 @@ sns.lmplot("x", "y", data=df, fit_reg=False, size=6, hue="cluster", legend=False
 plt.show()
 ```
 
+![pic](https://i0.wp.com/www.jorditorres.org/wp-content/uploads/2016/02/image026.png)
+
 전 내용을 잘 숙지했다면 위 그래프 내용도 쉽게 이해하실 거라 생각합니다.
+
+# Referenece
+* http://cs231n.github.io/convolutional-networks/
+* https://tensorflowkorea.wordpress.com/5-텐서플로우-다중-레이어-뉴럴-네트워크-first-contact-with-tensorflow/

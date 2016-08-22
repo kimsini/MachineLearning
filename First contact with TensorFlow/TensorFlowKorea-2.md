@@ -1,3 +1,4 @@
+# 변수간의 관계를 모델로
 
 이번에는 선형 회귀분석 모델을 만들어 보겠습니다. cost function 과 Gradient Descent 같은 머신 러닝 학습에 있어서 중요한 컴포넌트을 어떻게 사용하는지 알아보도록 하겠습니다.
 
@@ -34,8 +35,11 @@ plt.legend()
 plt.show()
 ```
 
+![pic](https://tensorflowkorea.files.wordpress.com/2016/04/image014.png?w=625)
+
 우리는 W 가 0.1 , b 가 0.3 에 근사한 값이라는 것을 알지만 텐서플로우는 모릅니다. 텐서플로우가 학습을 통해 스스로 찾아내야합니다.
 
+# 코스트 함수(Cost Function)와 그래디언트 디센트(Gradient Descent) 알고리즘
 
 ```python
 import tensorflow as tf
@@ -63,6 +67,8 @@ train = optimizer.minimize(cost)
 
 이제 텐서플로우가 내부 데이터 구조에 관련 데이터를 생성한다는 것을 알아 보았고 코스트함수를 등록하여 그래디언트 디센트 알고리즘 옵티마이저(optimizer) train을 구현했습니다. 학습 속도(learning rate)는 0.5로 지정했습니다.
 
+# 알고리즘 실행
+
 여기까지는 텐서플로우 라이브러리를 호출하는 코드는 단지 내부 그래프 구조에 정보를 추가시킨 것일 뿐 텐서플로우의 실행 모듈은 아직 아무런 알고리즘도 실행하지 않았습니다. 그러므로 이전 챕터에서와 같이 session을 생성하고 run 메소드를 train 파라메타와 함께 호출해야 합니다.  또한 변수를 선언했으므로 아래와 같은 명령으로 초기화해야 합니다.
 
 
@@ -89,7 +95,6 @@ step 수를 늘릴수록 점점 W는 0.1에 b는 0.3에 근사합니다.
 
 그래프를 통해 보기 위해 아래의 코드를 추가합니다.
 
-
 ```python
 plt.plot(x_data, y_data, 'ro')
 plt.plot(x_data, sess.run(W) * x_data + sess.run(b))
@@ -97,6 +102,8 @@ plt.legend()
 plt.show()
 ```
 
-    /home/llewyb/anaconda3/lib/python3.5/site-packages/matplotlib/axes/_axes.py:519: UserWarning: No labelled objects found. Use label='...' kwarg on individual plots.
-      warnings.warn("No labelled objects found. "
+![pic](https://tensorflowkorea.files.wordpress.com/2016/04/image016.png?w=625)
 
+# Referenece
+* http://cs231n.github.io/convolutional-networks/
+* https://tensorflowkorea.wordpress.com/5-텐서플로우-다중-레이어-뉴럴-네트워크-first-contact-with-tensorflow/
