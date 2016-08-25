@@ -1,4 +1,4 @@
-이 글은 Understanding LSTM Networks 라는 블로그 포스트를 번역하고 공부한 내용입니다.
+이 글은 [Understanding LSTM Networks](http://colah.github.io/posts/2015-08-Understanding-LSTMs/)블로그 포스트를 번역하고 공부한 내용입니다.
 
 
 # Recurrent Neural Network
